@@ -46,107 +46,29 @@ def spider(span, end):
     return content
 
 
-def get_location_id(x):
+def get_value(content, fields, default=None):
+    if len(fields) == 0:
+        return content
     try:
-        location_id = content['data'][x]['id']
+        return get_value(content[fields[0]], fields[1:], default=default)
     except:
-        location_id = None
-    finally:
-        print 'location_id:', location_id
-
-
-def get_priceString(x):
-    try:
-        priceString = content['data'][x]['priceString']
-    except:
-        priceString = None
-    finally:
-        print 'priceString:', priceString
-
-
-def get_name(x):
-    try:
-        name = content['data'][x]['name']
-    except:
-        name = None
-    finally:
-        print 'name:', name
-
-
-def get_review_essential(x):
-    try:
-        review_essential = content['data'][x]['review']['essential']
-    except:
-        review_essential = None
-    finally:
-        print 'review_essential:', review_essential
-
-
-def get_review_extension(x):
-    try:
-        review_extension = content['data'][x]['review']['extension']
-    except:
-        review_extension = None
-    finally:
-        print 'review_extension:', review_extension
-
-
-def get_subtypes(x):
-    try:
-        subtypes = content['data'][x]['subtypes']
-    except:
-        subtypes = None
-    finally:
-        print 'subtypes:', subtypes
-
-
-def get_images(x):
-    try:
-        images = content['data'][x]['images'][0]['path']
-    except:
-        images = None
-    finally:
-        print 'images:', images
-
-
-def get_street(x):
-    try:
-        street = content['data'][x]['address']['street']
-    except:
-        street = None
-    finally:
-        print 'street:', street
-
-
-def get_hoursString(x):
-    try:
-        hoursString = content['data'][x]['hoursString']
-    except:
-        hoursString = None
-    finally:
-        print 'hoursString:', hoursString
-
-
-def get_coordinates(x):
-    try:
-        coordinates = content['data'][x]['location']['coordinates']
-    except:
-        coordinates = None
-    finally:
-        print 'coordinates:', coordinates
+        return default
 
 
 def fetch_data(j):
-    get_location_id(j)
-    get_priceString(j)
-    get_name(j)
-    get_review_essential(j)
-    get_review_extension(j)
-    get_subtypes(j)
-    get_images(j)
-    get_street(j)
-    get_hoursString(j)
-    get_coordinates(j)
+    print "location_id:", get_value(content, ['data', j, 'id'])
+    print "priceString:", get_value(content, ['data', j, 'priceString'])
+    print "name:", get_value(content, ['data', j, 'name'])
+    print "review_essential:", get_value(
+        content, ['data', j, 'review', 'essential'])
+    print "review_extension:", get_value(
+        content, ['data', j, 'review', 'extension'])
+    print "subtypes:", get_value(content, ['data', j, 'subtypes'])
+    print "images:", get_value(content, ['data', j, 'images', 0, 'path'])
+    print "street:", get_value(content, ['data', j, 'address', 'street'])
+    print "hoursString:", get_value(content, ['data', j, 'hoursString'])
+    print "coordinates:", get_value(
+        content, ['data', j, 'location', 'coordinates'])
     print '\n'
 
 
@@ -176,12 +98,3 @@ if __name__ == "__main__":
 # 5. telephone、telephoneInfo等，选取哪个的问题
 # 6. containingPlace等未添加的数据
 # 7. 按照json来存储
-
-# 递归取数据的函数
-# def get_value(content, fields, default=None):
-#     if len(fields) == 0:
-#         return content
-#     try:
-#         return get_value(content[fields[0]], fields[1:], default=default)
-#     except:
-#         return default
