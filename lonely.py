@@ -73,6 +73,7 @@ def fetch_data(j):
 
 
 if __name__ == "__main__":
+    # f = open('attractions.jsonl', 'a+')
     try:
         times = 1
         while times > 0:
@@ -84,12 +85,14 @@ if __name__ == "__main__":
                 break
             for j in range(span):
                 fetch_data(j)
+            # f.write(json.dumps(content))
+            # f.write('\n')
             times += 1
             end = times * span
             time.sleep(0.2)
     except Exception, Argument:
         print "something wrong:", Exception, Argument
-
+    # f.close()
 # 待处理
 # 1. 正则处理review字段
 # 2. 考虑抓不到数据的报错输出 done
@@ -97,4 +100,4 @@ if __name__ == "__main__":
 # 4. 输出和取数据写入函数 done
 # 5. telephone、telephoneInfo等，选取哪个的问题
 # 6. containingPlace等未添加的数据
-# 7. 按照json来存储
+# 7. 按照json来存储 done
