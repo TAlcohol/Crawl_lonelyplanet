@@ -6,6 +6,16 @@ import time
 span = 10
 end = 0
 
+request_url = raw_input("Input url: ")
+splitter = "/"
+url_num = request_url.split(splitter)[-1]
+things_to_do = request_url.split(splitter)[-4]
+city = request_url.split(splitter)[-5]
+
+# request_url = 'https://www.lonelyplanet.com/usa/san-francisco/attractions/a/poi-sig/361858'
+# url_num = '361896'
+# things_to_do = 'attractions'
+
 
 def spider(span, end):
     cookies = {
@@ -36,10 +46,11 @@ def spider(span, end):
     }
 
     params = (
-        ('resource', '/pois?filter[poi][poi_type][equals]=sights&filter[poi][place_id][has_ancestor]=361932&page[limit]={}&page[offset]={}&include=image-associations.from,containing-place'.format(span, end)),
+        ('resource', '/pois?filter[poi][poi_type][equals]={}&filter[poi][place_id][has_ancestor]={}&page[limit]={}&page[offset]={}&include=image-associations.from,containing-place'.format(
+            things_to_do, url_num, span, end)),
     )
 
-    response = requests.get('https://www.lonelyplanet.com/usa/chicago/attractions/a/poi-sig/361932',
+    response = requests.get(request_url,
                             headers=headers, params=params, cookies=cookies)
 
     content = json.loads(response.content)
@@ -73,7 +84,7 @@ def fetch_data(j):
 
 
 if __name__ == "__main__":
-    # f = open('attractions.jsonl', 'a+')
+    f = open('{}.jsonl'.format(things_to_do), 'a+')
     try:
         times = 1
         while times > 0:
@@ -83,21 +94,13 @@ if __name__ == "__main__":
             if content['data'] == []:
                 print "We done."
                 break
-            for j in range(span):
-                fetch_data(j)
-            # f.write(json.dumps(content))
-            # f.write('\n')
-            times += 1
+            # for j in range(span):
+            #     fetch_data(j)
+            f.write(json.dumps(content))
+            f.write('\n')
             end = times * span
-            time.sleep(0.2)
+            times += 1
+            time.sleep(0.4)
     except Exception, Argument:
         print "something wrong:", Exception, Argument
-    # f.close()
-# 待处理
-# 1. 正则处理review字段
-# 2. 考虑抓不到数据的报错输出 done
-# 3. 考虑循环终结的报错 done
-# 4. 输出和取数据写入函数 done
-# 5. telephone、telephoneInfo等，选取哪个的问题
-# 6. containingPlace等未添加的数据
-# 7. 按照json来存储 done
+    f.close()
