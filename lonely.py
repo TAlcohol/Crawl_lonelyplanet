@@ -2,9 +2,13 @@
 import requests
 import json
 import time
+from config import COOKIES, HEADERS
 
 span = 10
 end = 0
+
+cookies = COOKIES
+headers = HEADERS
 
 request_url = raw_input("Input url: ")
 splitter = "/"
@@ -18,32 +22,6 @@ city = request_url.split(splitter)[-5]
 
 
 def spider(span, end):
-    cookies = {
-        'trctestcookie': 'ok',
-        '_v': '_split-17-stable',
-        'localeCookie': 'en_CN',
-        'lpCurrency': 'USD',
-        'lpUid': 'iNYSjSTyVfOYoF3fmFE3jnaGW3Uz5SDL',
-        'destinations-next-cookie': 'true',
-        '_ga': 'GA1.2.1680173646.1520602654',
-        '_gaexp': 'GAX1.2.a06-i4tPSKO_SCCKouML4A.17675.1',
-        'firstPoiSeen': 'true',
-        '__gads': 'ID=e5af29739b5a91bc:T=1520605125:S=ALNI_MY4z0VddAFVUKOSyWBSZD0Z47wcpg',
-        '_gid': 'GA1.2.1292466365.1520957607',
-        '_ceg.s': 'p5jeef',
-        '_ceg.u': 'p5jeef',
-    }
-
-    headers = {
-        'Accept-Encoding': 'gzip, deflate, br',
-        'Accept-Language': 'zh-CN,zh;q=0.9',
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.186 Safari/537.36',
-        'Content-Type': 'application/json',
-        'Accept': '*/*',
-        'Referer': 'https://www.lonelyplanet.com/usa/chicago/attractions/a/poi-sig/361932',
-        'X-Requested-With': 'XMLHttpRequest',
-        'Connection': 'keep-alive',
-    }
 
     params = (
         ('resource', '/pois?filter[poi][poi_type][equals]={}&filter[poi][place_id][has_ancestor]={}&page[limit]={}&page[offset]={}&include=image-associations.from,containing-place'.format(
